@@ -1,0 +1,9 @@
+{{ test_id }}
+{% if error %}
+<hr>
+<span style="color:red">{{error}}</span>
+{% endif %}
+<hr>
+{% for line in data %}
+<span>{{ line }}</span><br>
+{% endfor %}

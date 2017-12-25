@@ -1,0 +1,68 @@
+{% load staticfiles %}
+{% load sass_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% sass_src 'analysis/style.scss' %}">
+    <title>Analysis</title>
+</head>
+<body>
+    {% if error %}
+        <span>{{error}}</span>
+    {% endif %}
+    {% if upload %}
+        <span>{{upload}}</span>
+    {% endif %}
+
+    {% if success %}
+        <span>{{success}}</span>
+    {% endif %}
+
+    <form action="{% url 'analysis:upload' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+    <div class="upload">
+        <div class="upload-files">
+         <header>
+          <p>
+           <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+           <span class="up">up</span>
+           <span class="load">load</span>
+          </p>
+         </header>
+        <div class="container">
+            {% for field in form %}
+            <br>
+            <br>
+            <div class="col-md-12">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <span class="text-danger small">{{ field.errors }}</span>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label class="control-label col-sm-12">{{ field.label_tag }}</label>
+                </div>
+                <div class="col-md-12 form-group">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <footer>
+                <p>
+                 <button class="btn col-md-12" style="margin-bottom:-70px; background:#4db6ac; color:#fff" type=submit>Upload</button>
+                </p>
+        </footer> 
+        </div>
+       </div>
+    </form>
+</body>
+
+<script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+  crossorigin="anonymous"></script>
+</html>
