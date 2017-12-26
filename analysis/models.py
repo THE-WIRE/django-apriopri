@@ -1,6 +1,11 @@
+"""
+Models definition
+"""
+
 from django.db import models
-# Create your models here.
+
 class Upload(models.Model):
+    """To handle uploaded files"""
     test_name = models.CharField(max_length=200)
     datafile = models.FileField()
     upload_date = models.DateTimeField(auto_now=True)
@@ -10,6 +15,7 @@ class Upload(models.Model):
 
 
 class Data(models.Model):
+    """To handle data acquired from uploaded files"""
     upload = models.ForeignKey(Upload, on_delete=models.CASCADE)
     sr = models.IntegerField()
     basket_value = models.FloatField()
