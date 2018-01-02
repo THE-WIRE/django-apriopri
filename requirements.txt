@@ -1,0 +1,15 @@
+astroid==1.6.0
+-e git+https://github.com/itssuyog96/django.git@1818d13de792df0c8efd129c4e0927360e873e73#egg=Django
+django-appconf==1.0.2
+django-compressor==2.2
+django-sass-processor==0.5.7
+isort==4.2.15
+lazy-object-proxy==1.3.1
+libsass==0.13.4
+mccabe==0.6.1
+pylint==1.8.1
+pytz==2017.3
+rcssmin==1.0.6
+rjsmin==1.0.12
+six==1.11.0
+wrapt==1.10.11
