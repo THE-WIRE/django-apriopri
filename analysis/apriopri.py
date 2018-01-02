@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from numpy import nan
+import itertools
 
 def powerset(seq):
     """
@@ -18,14 +19,26 @@ def powerset(seq):
 def get_sets(count):
     x = powerset([x for x in range(count)])
     a = []
+    b = []
     for i in x:
-        if(len(i) > 1) and (len(i) < 3):
-            a.append(i)
+        if(len(i) > 1):
+            y = list(itertools.permutations(i))
+            for j in y:
+                a.append(j)
+    for i in range(2, count+1):
+        c = []
+        for j in a:
+            if(len(j) == i):
+                c.append(j)
+        b.append(c)
     
-    return a
+    return b
+                
+                
+
 
 class Apriopri:
-    def __init__(self, infile, supp=700, conf=0.5):
+    def __init__(self, infile, supp=0.1, conf=0.5):
         self.file = infile
         self.supp = supp
         self.conf = conf
@@ -68,54 +81,33 @@ class Apriopri:
         self.d = self.data
     
     def get_support(self):
-        self.support = np.sum(self.d, axis=0)
-        print(self.support)
+        self.item_data = np.array(self.item_data)
+        self.d = np.array(self.d)
+        self.support = np.sum(self.d, axis=0)/self.d.shape[0]
         indices = []
         for i in range(len(self.support)):
             if(self.support[i] < self.supp):
                 indices.append(i)
-        self.d = np.array(self.d)
-        self.item_data = np.array(self.item_data)
-        print(self.d.shape, indices, self.support.shape)
+
         self.d = np.delete(self.d, indices, 1)
-        print(self.d.shape, indices, self.support.shape)
-        print("----------------------------")
-        print(self.item_data.shape, indices)
+
         self.item_data = np.delete(self.item_data, indices)
-        print(self.item_data.shape, indices)
-        print("----------------------------")
-        print("Data cleaned by columns.")
-        self.support = np.sum(self.d, axis=1)
-        indices = []
-        for i in range(len(self.support)):
-            if(self.support[i] < 3):
-                indices.append(i)
-        self.d = np.delete(self.d, indices, 0)
-        print(self.d.shape, indices, self.support.shape)
-        self.basket_data = np.delete(self.basket_data, indices, 0)
-        print("Data cleaned by rows.")
-        self.s = np.sum(self.d, axis=0)/self.d.shape[1]
-        print("Support values calculated.")
-        x = get_sets(self.item_data.size)
-        self.confidence = np.zeros([self.item_data.size, self.item_data.size])
-        print("Calculating confidence...")
-        for i in x:
-            count = 0
-            for y in self.d:
-                if( y[i[0]] and y[i[1]] ):
-                    count += 1
-            self.confidence[i[0], i[1]] = count/np.sum(self.d[:, i[0]])
-        print("Confidence calculated (1/2)")
-        for i in x:
-            count = 0
-            for y in self.d:
-                if( y[i[0]] and y[i[1]] ):
-                    count += 1
-            self.confidence[i[1], i[0]] = count/np.sum(self.d[:, i[1]])
-        print("Confidence calculated (2/2)")
+        self.support = np.delete(self.support, indices)
+        print("Filtering completed.")
         
-    def get_max_pairs(self):
-        i, j = np.unravel_index(np.argmax(self.confidence), self.confidence.shape)
-        return self.item_data[i], self.item_data[j]
+        self.con()
+    
+    def ret_support(self, el):
+        return 1
+        
+    def con(self):
+        self.confidence = dict()
+        perms = get_sets(self.item_data.size)
+        for i, perm in enumerate(perms):
+            for j, _set in enumerate(perm):
+                self.confidence[_set] = self.ret_support(_set[:i+1])/self.ret_support(_set[-1:])
+                
+        
+        
 
 a = Apriopri('/Users/suyog/Projects/apriopri/file/GroceriesInitial.csv')
