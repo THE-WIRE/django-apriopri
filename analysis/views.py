@@ -9,7 +9,10 @@ from apriopri.settings import FILE_ROOT
 # Create your views here.
 
 def index(request):
-    return render(request,'analysis/index.html', {'form': UploadForm})
+    return render(request,'analysis/index.html')
+
+def upload(request):
+    return render(request,'analysis/upload.html', {'form': UploadForm})
 
 def upload_file(request):
     upload = "Nothing"
@@ -29,11 +32,13 @@ def upload_file(request):
     context = {
         'form': form
     }
-    return render(request, 'analysis/index.html', context)
+    return render(request, 'analysis/upload.html', context)
 
 def analyze(request, test_id):
     upload = get_object_or_404(Upload, pk=test_id)
     # Apriopri(upload.datafile.path)
+    print(os.path.join(FILE_ROOT, upload.datafile.path))
+    print(upload.datafile.path)
     try:
         with open(os.path.join(FILE_ROOT, upload.datafile.path), 'r') as csvfile:
             return render(request, 'analysis/analyze.html', {

@@ -127,5 +127,5 @@ SASS_PROCESSOR_INCLUDE_DIRS = [
     os.path.join(BASE_DIR, 'node_modules'),
 ]
 
-FILE_ROOT = os.path.join(BASE_DIR, 'file')
-FILE_URL = '/file/'
+FILE_ROOT = os.path.join(BASE_DIR, '')
+FILE_URL = '/'

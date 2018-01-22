@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-    <title>All Tests</title>
-</head>
-<body>
+{% extends 'analysis/base.html' %}
+{% block main %}
+<div class="widget">
+    <div class="title">File List</div>
     <table class="table table-responsive table-inverse col-md-12">
         <thead>
             <tr>
-                <th>SR. NO.</th>
+                <th>Sr. No.</th>
                 <th>Test Name</th>
                 <th>File</th>
+                <th>Download</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,11 +17,12 @@
             <tr>
                 <td>{{ test.pk }}</td>
                 <td>{{ test.test_name }}</td>
-                <td>{{ test.datafile.name }} | <a href="../../../file/{{ test.datafile.name }}">Download</a></td>
+                <td>{{ test.datafile.name }}</td>
+                <td><a href="../../../{{ test.datafile.name }}">Download</a></td>
                 <td> <a href="{% url 'analysis:analyze' test.pk %}">Analyze</a> </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+</div>
+{% endblock %}
