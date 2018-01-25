@@ -207,11 +207,12 @@ body {
 .widget {
 	flex-basis: 300px;
 	flex-grow: 10;
-	height: 300px;
+	height: 700px;
 	margin: 15px;
 	border-radius: 6px;
 	background-color: #ffffff;
-	position: relative;
+    position: relative;
+    overflow: scroll;
 }
 .widget .title {
 	background-color: #eef1f7;
@@ -222,9 +223,16 @@ body {
 	color: #617085;
 	font-weight: 600;
 }
+.widget .content{
+    overflow: scroll;
+}
 .ad {
 	width: 350px;
 	height: 300px;
 	border: 1px solid #ddd;
 }
 
+ol>li>button.btn.btn-sm{
+    line-height: 0.65;
+    margin-bottom: 8px;
+}

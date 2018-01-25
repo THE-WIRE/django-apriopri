@@ -95,18 +95,18 @@ class Apriopri:
         self.support = np.delete(self.support, indices)
         print("Filtering completed.")
         
-        self.con()
-    
-    def ret_support(self, el):
-        return 1
-        
-    def con(self):
-        self.confidence = dict()
-        perms = get_sets(self.item_data.size)
-        for i, perm in enumerate(perms):
-            for j, _set in enumerate(perm):
-                self.confidence[_set] = self.ret_support(_set[:i+1])/self.ret_support(_set[-1:])
-                
+#        self.con()
+#    
+#    def ret_support(self, el):
+#        return 1
+#        
+#    def con(self):
+#        self.confidence = dict()
+#        perms = get_sets(self.item_data.size)
+#        for i, perm in enumerate(perms):
+#            for j, _set in enumerate(perm):
+#                self.confidence[_set] = self.ret_support(_set[:i+1])/self.ret_support(_set[-1:])
+#                
         
         
 

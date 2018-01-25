@@ -2,6 +2,23 @@
 {% block main %}
 <div class="widget">
     <div class="title">File List</div>
+    <div class="col-md-12 inputForm" style="display:none;">
+        <form id="inputForm" action="#">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="sup" class="label-control">Support</label>
+                    <input class ="form-control" type="text" id="sup" name="sup" />
+                </div>
+                <div class="form-group">
+                    <label for="conf" class="label-control">Confidence</label>
+                    <input class ="form-control" type="text" id="conf" name="conf" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Analyze</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <table class="table table-responsive table-inverse col-md-12">
         <thead>
             <tr>
@@ -18,11 +35,32 @@
                 <td>{{ test.pk }}</td>
                 <td>{{ test.test_name }}</td>
                 <td>{{ test.datafile.name }}</td>
-                <td><a href="../../../{{ test.datafile.name }}">Download</a></td>
-                <td> <a href="{% url 'analysis:analyze' test.pk %}">Analyze</a> </td>
+                <td><a class="btn btn-success btn-sm" href="../../../{{ test.datafile.name }}">Download</a></td>
+                <td><a class="btn btn-primary btn-sm" href="{% url 'analysis:view' test.pk %}">View</a> </td>
+                <td><a class="btn btn-primary btn-sm" onclick="get_input({{test.pk}})" href="#">Analyze</a> </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+<span id="test_id"></span>
+<script>
+
+    function get_input(test_id){
+        $('.inputForm').css({"display" : "block"});
+        $('#test_id').val(test_id);
+    }
+
+    $('#inputForm').submit(function(e){
+        e.preventDefault();
+
+        sup = $('#sup').val();
+        conf = $('#conf').val();
+        test_id = $('#test_id').val();
+
+        window.location.replace('/analysis/'+ test_id + '/analyze/' + sup + '/' + conf);
+
+        
+    })
+</script>
 {% endblock %}

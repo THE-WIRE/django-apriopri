@@ -1,9 +1,24 @@
-{{ test_id }}
-{% if error %}
-<hr>
-<span style="color:red">{{error}}</span>
-{% endif %}
-<hr>
-{% for line in data %}
-<span>{{ line }}</span><br>
-{% endfor %}
+{% extends 'analysis/base.html' %}
+{% block main %}
+<div class="widget">
+    <div class="title">Analysis for Test Id : {{ test_id }}</div>
+    <div class="col-md-12">
+        <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Item Sets</th>
+                        <th>Support</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in data %}
+                    <tr>
+                        <td><strong>{{ d.items }}</strong></td>
+                        <td>{{ d.support }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+</div>
+{% endblock %}

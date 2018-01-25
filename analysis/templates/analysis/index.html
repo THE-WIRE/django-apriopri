@@ -1,9 +1,20 @@
 {% extends 'analysis/base.html' %}
 {% block main %}
 <div class="widget">
-    <div class="title">Plot 1</div>
-    <div id="myDiv" style="width: 80px; height: 80px;" ><!-- Plotly chart will be drawn inside this DIV --></div>
-
-    <div class="chart"></div>
+    <div class="title">Instructions</div>
+    <div class="col-md-12">
+        <br>
+        &larr; Select from menu to navigate.
+        <hr>
+        <ol>
+            <li>Select Upload option from menu to upload test files.</li>
+            <li>On upload completion the user is automatically redirected to another page where all uploaded files are listed.</li>
+            <li>Click on <button class="btn btn-sm btn-primary">View</button> to view the file contents an verify if it is properly uploaded.</li>
+            <li>On verification click on <button class="btn btn-sm btn-primary">Analyze</button> to start the analysis.</li>
+        </ol>
+        <div>
+            <span> <small><strong>* Please verify the uploaded file before initiating analysis.</strong></small> </span>
+        </div>
+    </div>
 </div>
 {% endblock %}
