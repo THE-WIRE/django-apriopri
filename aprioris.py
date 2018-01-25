@@ -400,7 +400,7 @@ def dump_as_json(record, output_file):
     json.dump(
         converted_record._asdict(), output_file,
         default=default_func, ensure_ascii=False)
-    output_file.write(os.linesep)
+    output_file.write("\n")
 
 
 def dump_as_two_item_tsv(record, output_file):
