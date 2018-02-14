@@ -1,0 +1,133 @@
+
+{% extends 'analysis/base.html' %}
+{% block main %}
+<div class="widget">
+    <div class="title head-line">Plot for Data Id : {{ test_id }}</div>
+    <div class="col-md-12">
+        {% if error %}
+        <div class="col-md-12">
+            <span style="color:red">{{error}}</span>
+        </div>
+        {% else %}
+        <div id="plot"></div>
+        <table class="table table-responsive">
+            <thead>
+                <th>Name</th>
+                <th>Support</th>
+                <th>Before</th>
+                <th>After</th>
+                <th>Confidence</th>
+                <th>Lift</th>
+            </thead>
+            <tbody></tbody>
+               
+        </table>
+    </div>
+    <hr>
+    <hr>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $.ajax({
+        url: "{% url 'analysis:getdata' test_id %}",
+        method: 'GET',
+        success: function(data){
+            data.forEach(d => {
+                $('.table tbody').append('<tr><td>'+d.name+'</td><td>'+d.support+'</td><td>'+JSON.stringify(d.before)+'</td><td>'+JSON.stringify(d.after)+'</td><td>'+d.conf+'</td><td>'+d.lift+'</td></tr>')
+            })
+
+            plot(data);
+        },
+        error: function(error){
+            console.log(error.responseText);
+            $('.head-line').html('<strong style="color:red;">Analyze before generating plots.</strong>')
+        }
+    })
+</script>
+
+<script>
+
+    
+    
+
+    function plot(raw){
+        var d3 = Plotly.d3;
+
+        var WIDTH_IN_PERCENT_OF_PARENT = 60,
+            HEIGHT_IN_PERCENT_OF_PARENT = 80;
+
+        var gd3 = d3.select('#plot')
+            .append('div')
+            .style({
+                width: WIDTH_IN_PERCENT_OF_PARENT * 4 + '%',
+                // 'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+
+                height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+                // 'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+            });
+
+        var gd = gd3.node();
+
+
+
+        d = [];
+        x1 = [], x2 = [], x3 = [];
+
+        raw.forEach(x => {
+            if(x.lift == 1){
+                x1.push(x);
+            }
+            else if(x.lift > 1 && x.lift < 2){
+                x2.push(x);
+            }
+
+            else if(x.lift >= 2){
+                x3.push(x);
+            }
+        })
+        console.log(x1, x2, x3);
+
+        d = [x1, x2, x3];
+        var name = ["low", "medium", "high"]
+
+        data = [], i = -1;
+
+        d.forEach(n => {
+            i++;
+            support = n.map(x => x.support);
+            conf = n.map(x => x.conf);
+            lift = n.map(x => x.lift);
+
+            text = n.map(x =>  JSON.stringify(x.before) + " | " + JSON.stringify(x.after));
+
+            var trace = {
+                x: conf,
+                y: lift,
+                mode: 'markers',
+                type: 'scatter',
+                name: name[i],
+                text: text,
+                marker: { size: 10 }
+            };
+
+            data.push(trace);
+        });
+
+        var layout = {
+            xaxis: {
+                range: [ 0, 0.6 ],
+                height: 100
+            },
+            // yaxis: {
+            //     range: [0, 8]
+            // },
+            title:'Data Labels Hover'
+        };
+
+        Plotly.newPlot(gd, data, layout);
+    }
+</script>
+{% endblock %}

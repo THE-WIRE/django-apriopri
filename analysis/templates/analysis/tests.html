@@ -37,7 +37,8 @@
                 <td>{{ test.datafile.name }}</td>
                 <td><a class="btn btn-success btn-sm" href="../../../{{ test.datafile.name }}">Download</a></td>
                 <td><a class="btn btn-primary btn-sm" href="{% url 'analysis:view' test.pk %}">View</a> </td>
-                <td><a class="btn btn-primary btn-sm" onclick="get_input({{test.pk}})" href="#">Analyze</a> </td>
+                <td><a class="btn btn-primary btn-sm" onclick="get_input({{ test.pk }})" href="#">Analyze</a> </td>
+                <td><a class="btn btn-primary btn-sm" href="{% url 'analysis:plot' test.pk %}">Plot</a> </td>
             </tr>
             {% endfor %}
         </tbody>
