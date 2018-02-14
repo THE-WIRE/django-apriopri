@@ -101,7 +101,7 @@
             conf = n.map(x => x.conf);
             lift = n.map(x => x.lift);
 
-            text = n.map(x =>  JSON.stringify(x.before) + " | " + JSON.stringify(x.after));
+            text = n.map(x =>  JSON.stringify(x.before) + " → " + JSON.stringify(x.after));
 
             var trace = {
                 x: conf,
@@ -124,7 +124,7 @@
             // yaxis: {
             //     range: [0, 8]
             // },
-            title:'Data Labels Hover'
+            title:'Confidence vs Lift'
         };
 
         Plotly.newPlot(gd, data, layout);
