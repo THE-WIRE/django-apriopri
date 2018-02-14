@@ -102,8 +102,8 @@ def analyze(request, test_id, sup=0.01, conf=0.01):
             command = 'python'
         elif(os.name == 'posix'):
             command = 'python3'
-        print(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > out.json'))
-        os.system(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > out.json'))
+        print(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > out.json')
+        os.system(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > out.json')
         data = []
         with open(os.path.join(BASE_DIR, 'out.json')) as f:
             for line in f:
