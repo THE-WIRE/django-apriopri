@@ -7,9 +7,6 @@ from .models import Upload
 import os
 from apriopri.settings import FILE_ROOT, BASE_DIR
 import json
-# from .apriopri import Apriopri
-
-# Create your views here.
 
 def index(request):
     return render(request,'analysis/index.html')
@@ -98,12 +95,40 @@ def analyze(request, test_id, sup=0.01, conf=0.01):
     upload = get_object_or_404(Upload, pk=test_id)
 
     try:
+        ## Run apriori algorithm of raw data
         if(os.name == 'nt'):
             command = 'python'
         elif(os.name == 'posix'):
             command = 'python3'
         print(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > out.json')
         os.system(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > out.json')
+
+        ## Preprocessing of data
+        data = []
+
+        with open('/Users/suyog/Projects/apriopri/out.json', 'r+') as file:
+            for line in file:
+                x = json.loads(line)
+                data.append(x)
+        o_data = []
+
+        for d in data:
+            for i in d['items']:
+                for stats in d['ordered_statistics']:
+                    item = {}
+                    item['name'] = i
+                    item['support'] = d['support']
+                    item['before'] = stats['items_base']
+                    item['after'] = stats['items_add']
+                    item['conf'] = stats['confidence']
+                    item['lift'] = stats['lift']
+                    o_data.append(item)
+                    
+        with open('/Users/suyog/Projects/apriopri/processed_out.json', 'w') as file:
+            file.write(json.dumps(o_data))
+
+        ## Display data in tabular format
+
         data = []
         with open(os.path.join(BASE_DIR, 'out.json')) as f:
             for line in f:
