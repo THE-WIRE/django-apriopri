@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from .forms import UploadForm
 from .models import Upload
@@ -89,6 +89,12 @@ def list_tests(request):
     uploads = Upload.objects.all()
     return render(request, 'analysis/tests.html', {'tests' : uploads})
 
+def getdata(request, test_id):
+    upload = get_object_or_404(Upload, pk=test_id)
+    with open(os.path.join(FILE_ROOT, upload.datafile.path) + '.processed_out.json', 'r') as file:
+            data = json.loads(file.read())
+            return JsonResponse(data, safe=False)
+
 def analyze(request, test_id, sup=0.01, conf=0.01):
     support = sup
     confidence = conf
@@ -100,13 +106,13 @@ def analyze(request, test_id, sup=0.01, conf=0.01):
             command = 'python'
         elif(os.name == 'posix'):
             command = 'python3'
-        print(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > out.json')
-        os.system(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > out.json')
+        print(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > ' + upload.datafile.name + '.out.json')
+        os.system(command + ' ' + os.path.join(BASE_DIR, 'aprioris.py') + ' -f json -d , -c '+ confidence +' -s '+ support +' < ' + os.path.join(FILE_ROOT, upload.datafile.path) + ' > ' + upload.datafile.name + '.out.json')
 
         ## Preprocessing of data
         data = []
 
-        with open('/Users/suyog/Projects/apriopri/out.json', 'r+') as file:
+        with open(os.path.join(FILE_ROOT, upload.datafile.path) + '.out.json', 'r+') as file:
             for line in file:
                 x = json.loads(line)
                 data.append(x)
@@ -124,13 +130,13 @@ def analyze(request, test_id, sup=0.01, conf=0.01):
                     item['lift'] = stats['lift']
                     o_data.append(item)
                     
-        with open('/Users/suyog/Projects/apriopri/processed_out.json', 'w') as file:
+        with open(os.path.join(FILE_ROOT, upload.datafile.path) + '.processed_out.json', 'w') as file:
             file.write(json.dumps(o_data))
 
         ## Display data in tabular format
 
         data = []
-        with open(os.path.join(BASE_DIR, 'out.json')) as f:
+        with open(os.path.join(BASE_DIR, upload.datafile.name + '.out.json')) as f:
             for line in f:
                 data.append(json.loads(line.strip('\n')))
         
