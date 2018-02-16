@@ -74,24 +74,40 @@
 
 
         d = [];
-        x1 = [], x2 = [], x3 = [];
+        x1 = [], x2 = [], x3 = [], x4 = [], x5 = [];
 
         raw.forEach(x => {
-            if(x.lift == 1){
+            if(x.lift < 0.8){
+                if(x.conf < 0.1){
                 x1.push(x);
+                }
+            }
+            else if(x.lift >= 0.8 && x.lift < 1){
+                //if(x.conf >= 0.1 && x.conf < 0.2){
+                x2.push(x);
+                //}
+            }
+            else if(x.lift == 1){
+                //if(x.conf == 0.3){
+                x3.push(x);
+                //}
             }
             else if(x.lift > 1 && x.lift < 2){
-                x2.push(x);
+                if(x.conf > 0.3 && x.conf < 0.5){
+                x4.push(x);
+                }
             }
 
             else if(x.lift >= 2){
-                x3.push(x);
+                if(x.conf >= 0.5){
+                x5.push(x);
+                }
             }
         })
-        console.log(x1, x2, x3);
+        console.log(x1, x2, x3, x4, x5);
 
-        d = [x1, x2, x3];
-        var name = ["low", "medium", "high"]
+        d = [x1, x2, x3, x4, x5];
+        var name = ["discount", "low", "medium", "high", "strong"]
 
         data = [], i = -1;
 
