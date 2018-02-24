@@ -1,0 +1,115 @@
+
+{% extends 'analysis/base.html' %}
+{% block main %}
+<div class="widget">
+    <div class="title head-line">Plot for Data Id : {{ test_id }}</div>
+    <div class="col-md-12">
+        {% if error %}
+        <div class="col-md-12">
+            <span style="color:red">{{error}}</span>
+        </div>
+        {% else %}
+        <div id="plot"></div>
+        <table class="table table-responsive">
+            <thead>
+                <th>Name</th>
+                <th>Support</th>
+                <th>Before</th>
+                <th>After</th>
+                <th>Confidence</th>
+                <th>Lift</th>
+            </thead>
+            <tbody></tbody>
+               
+        </table>
+    </div>
+    <hr>
+    <hr>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $.ajax({
+        url: "{% url 'analysis:getdata' test_id %}",
+        method: 'GET',
+        success: function(data){
+            data.forEach(d => {
+                $('.table tbody').append('<tr><td>'+d.name+'</td><td>'+d.support+'</td><td>'+JSON.stringify(d.before)+'</td><td>'+JSON.stringify(d.after)+'</td><td>'+d.conf+'</td><td>'+d.lift+'</td></tr>')
+            })
+
+            plot(data);
+        },
+        error: function(error){
+            console.log(error.responseText);
+            $('.head-line').html('<strong style="color:red;">Analyze before generating plots.</strong>')
+        }
+    })
+</script>
+
+<script>
+
+    
+
+    function plot(raw){      
+
+        d = [];
+        x1 = [], x2 = [], x3 = [];
+
+        raw.forEach(x => {
+            if(x.lift == 1){
+                x1.push(x);
+            }
+            else if(x.lift > 1 && x.lift < 2){
+                x2.push(x);
+            }
+
+            else if(x.lift >= 2){
+                x3.push(x);
+            }
+        })
+        console.log(x1, x2, x3);
+
+        d = [x1, x2, x3];
+        var colors = new Array();
+        colors.push('rgb(255, 0, 0)');
+        colors.push('rgb(0, 255, 0)');
+        colors.push('rgb(0, 0, 255)');
+
+        data = [], i = -1;
+
+        d.forEach(n => {
+            i++;
+            support = n.map(x => x.support);
+            conf = n.map(x => x.conf);
+            lift = n.map(x => x.lift);
+
+            text = n.map(x => {
+                return JSON.stringify(x.before) + '|' + JSON.stringify(x.after);
+            });
+
+            trace = {
+            x: support, 
+            y: conf, 
+            z: lift,
+            text: text,
+            mode: 'markers',
+            marker: {
+                color: colors.pop(),
+                size: 12,
+                symbol: 'circle',
+                line: {
+                color: 'rgb(204, 204, 204)',
+                width: 1},
+                opacity: 0.8},
+            type: 'scatter3d'
+            };
+
+            data.push(trace);
+        });
+
+        Plotly.newPlot('plot', data);
+    }
+</script>
+{% endblock %}
