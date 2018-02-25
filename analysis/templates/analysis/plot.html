@@ -56,7 +56,7 @@
     function plot(raw){
         var d3 = Plotly.d3;
 
-        var WIDTH_IN_PERCENT_OF_PARENT = 60,
+        var WIDTH_IN_PERCENT_OF_PARENT = 25,
             HEIGHT_IN_PERCENT_OF_PARENT = 80;
 
         var gd3 = d3.select('#plot')
@@ -129,11 +129,13 @@
         var layout = {
             xaxis: {
                 range: [ 0, 0.6 ],
-                height: 100
+                height: 100,
+                title: 'Support'
             },
-            // yaxis: {
+            yaxis: {
             //     range: [0, 8]
-            // },
+            title: 'Confidence'
+            },
             title:'Support vs Confidence'
         };
 

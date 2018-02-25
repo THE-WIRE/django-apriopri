@@ -64,7 +64,7 @@
 		</div>
 		<div class="side-nav">
 			<div class="logo">
-				<i class="fa fa-tachometer"></i>
+				<i class="fa fa-shopping-cart"></i>
 				<span>MB analysis</span>
 			</div>
 			<nav>
@@ -78,14 +78,20 @@
 					<li>
 						<a href="{% url 'analysis:uploadfile' %}">
 
-							<span><i class="fa fa-envelope"></i></span>
+							<span><i class="fa fa-upload"></i></span>
 							<span>Upload</span>
 						</a>
 					</li>
 					<li class="active">
 						<a href="#">
-							<span><i class="fa fa-bar-chart"></i></span>
+							<span><i class="fa fa-area-chart"></i></span>
 							<span>Analytics</span>
+						</a>
+					</li>
+					<li>
+						<a href="{% url 'analysis:uploadfile' %}">
+                            <span><i class="fa fa-bar-chart"></i></span>
+							<span>Plots</span>
 						</a>
 					</li>
 				</ul>

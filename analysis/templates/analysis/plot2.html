@@ -56,7 +56,7 @@
     function plot(raw){
         var d3 = Plotly.d3;
 
-        var WIDTH_IN_PERCENT_OF_PARENT = 60,
+        var WIDTH_IN_PERCENT_OF_PARENT = 25,
             HEIGHT_IN_PERCENT_OF_PARENT = 80;
 
         var gd3 = d3.select('#plot')
@@ -93,7 +93,7 @@
                 //}
             }
             else if(x.lift > 1 && x.lift < 2){
-                if(x.conf > 0.3 && x.conf < 0.5){
+                if(x.conf > 0.3 && x.conf < 0.7){
                 x4.push(x);
                 }
             }
@@ -117,7 +117,7 @@
             conf = n.map(x => x.conf);
             lift = n.map(x => x.lift);
 
-            text = n.map(x =>  JSON.stringify(x.before) + " → " + JSON.stringify(x.after));
+            text = n.map(x => JSON.stringify(x.before) + " → " + JSON.stringify(x.after));
 
             var trace = {
                 x: conf,
@@ -135,11 +135,13 @@
         var layout = {
             xaxis: {
                 range: [ 0, 0.6 ],
-                height: 100
+                height: 100,
+                title: 'confidence'
             },
-            // yaxis: {
-            //     range: [0, 8]
-            // },
+            yaxis: {
+                 //range: [0, 3],
+                 title: 'Lift'
+            },
             title:'Confidence vs Lift'
         };
 
