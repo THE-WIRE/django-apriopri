@@ -55,24 +55,30 @@
     function plot(raw){      
 
         d = [];
-        x1 = [], x2 = [], x3 = [];
+        x1 = [], x2 = [], x3 = [], x4 = [], x5 =[];
 
         raw.forEach(x => {
-            if(x.lift == 1){
+            if(x.lift < 0.8){
                 x1.push(x);
             }
-            else if(x.lift > 1 && x.lift < 2){
+            else if(x.lift > 0.8 && x.lift < 1){
                 x2.push(x);
             }
 
-            else if(x.lift >= 2){
+            else if(x.lift >= 1 && x.lift < 1.5){
                 x3.push(x);
             }
+            else if(x.lift >= 1.5 && x.lift < 2){
+                x4.push(x);
+            }
+            else if(x.lift >= 2){
+                x5.push(x);
+            }
         })
-        console.log(x1, x2, x3);
+        console.log(x1, x2, x3, x4, x5);
 
-        d = [x1, x2, x3];
-        var name = ["low", 'medium', "high"]
+        d = [x1, x2, x3, x4, x5];
+        var name = ["very low", "low", 'medium', "high", "strong"]
         var colors = new Array();
         colors.push('rgb(255, 0, 0)');
         colors.push('rgb(0, 255, 0)');
@@ -99,7 +105,7 @@
             name: name[i],
             marker: {
                 //color: colors.pop(),
-                size: 5,
+                size: 4,
                symbol: 'circle',
                 line: {
                 //color: 'rgb(0, 204, 204)',
@@ -111,16 +117,16 @@
             data.push(trace);
         });
         var layout = {
-            x: {
+            xaxis: {
                 //range: [ 0, 0.6 ],
                 //height: 100,
                 title: 'Support'
             },
-            y: {
+            yaxis: {
             //     range: [0, 8]
                    title: 'Confidence'
             },
-            z: {
+            zaxis: {
                 title: "lift"
             },
             title:'Support vs Confidence vs Lift'
