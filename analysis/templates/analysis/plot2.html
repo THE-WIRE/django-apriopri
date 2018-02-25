@@ -93,7 +93,7 @@
                 //}
             }
             else if(x.lift > 1 && x.lift < 2){
-                if(x.conf > 0.3 && x.conf < 0.7){
+                if(x.conf > 0.3 && x.conf < 0.5){
                 x4.push(x);
                 }
             }
@@ -117,7 +117,7 @@
             conf = n.map(x => x.conf);
             lift = n.map(x => x.lift);
 
-            text = n.map(x => JSON.stringify(x.before) + " → " + JSON.stringify(x.after));
+            text = n.map(x =>  JSON.stringify(x.before) + " → " + JSON.stringify(x.after));
 
             var trace = {
                 x: conf,
@@ -142,6 +142,9 @@
                  //range: [0, 3],
                  title: 'Lift'
             },
+            // yaxis: {
+            //     range: [0, 8]
+            // },
             title:'Confidence vs Lift'
         };
 

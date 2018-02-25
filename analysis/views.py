@@ -95,7 +95,7 @@ def getdata(request, test_id):
             data = json.loads(file.read())
             return JsonResponse(data, safe=False)
 def plot(request, test_id):
-    return render(request, 'analysis/plot.html', {'test_id' : test_id})
+    return render(request, 'analysis/plot3.html', {'test_id' : test_id})
 
 def plot2(request, test_id):
     return render(request, 'analysis/plot2.html', {'test_id' : test_id})

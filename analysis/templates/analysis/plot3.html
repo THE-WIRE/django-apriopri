@@ -51,57 +51,31 @@
 <script>
 
     
-    
 
-    function plot(raw){
-        var d3 = Plotly.d3;
-
-        var WIDTH_IN_PERCENT_OF_PARENT = 25,
-            HEIGHT_IN_PERCENT_OF_PARENT = 80;
-
-        var gd3 = d3.select('#plot')
-            .append('div')
-            .style({
-                width: WIDTH_IN_PERCENT_OF_PARENT * 4 + '%',
-                // 'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
-
-                height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
-                // 'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
-            });
-
-        var gd = gd3.node();
-
-
+    function plot(raw){      
 
         d = [];
-        x1 = [], x2 = [], x3 = [], x4 = [], x5 = [];
+        x1 = [], x2 = [], x3 = [];
 
         raw.forEach(x => {
-            if(x.lift < 0.8){
+            if(x.lift == 1){
                 x1.push(x);
             }
-            else if(x.lift >= 0.8 && x.lift < 1){
-                x2.push(x);
-            }
-            else if(x.lift == 1){
-                x3.push(x);
-            }
             else if(x.lift > 1 && x.lift < 2){
-                if(x.conf >= 0.2 && x.conf < 0.3){
-                x4.push(x);
-                }
+                x2.push(x);
             }
 
             else if(x.lift >= 2){
-                if(x.conf >= 0.3){
-                x5.push(x);
-            }
+                x3.push(x);
             }
         })
-        console.log(x1, x2, x3, x4, x5);
+        console.log(x1, x2, x3);
 
-        d = [x1, x2, x3, x4, x5];
-        var name = ["Discount","low", "medium", "high", "strong"]
+        d = [x1, x2, x3];
+        var colors = new Array();
+        colors.push('rgb(255, 0, 0)');
+        colors.push('rgb(0, 255, 0)');
+        colors.push('rgb(0, 0, 255)');
 
         data = [], i = -1;
 
@@ -111,35 +85,31 @@
             conf = n.map(x => x.conf);
             lift = n.map(x => x.lift);
 
-            text = n.map(x =>  JSON.stringify(x.before) + " → " + JSON.stringify(x.after));
+            text = n.map(x => {
+                return JSON.stringify(x.before) + '|' + JSON.stringify(x.after);
+            });
 
-            var trace = {
-                x: support,
-                y: conf,
-                mode: 'markers',
-                type: 'scatter',
-                name: name[i],
-                text: text,
-                marker: { size: 10 }
+            trace = {
+            x: support, 
+            y: conf, 
+            z: lift,
+            text: text,
+            mode: 'markers',
+            marker: {
+                color: colors.pop(),
+                size: 12,
+                symbol: 'circle',
+                line: {
+                color: 'rgb(204, 204, 204)',
+                width: 1},
+                opacity: 0.8},
+            type: 'scatter3d'
             };
 
             data.push(trace);
         });
 
-        var layout = {
-            xaxis: {
-                range: [ 0, 0.6 ],
-                height: 100,
-                title: 'Support'
-            },
-            yaxis: {
-            //     range: [0, 8]
-                   title: 'Confidence'
-            },
-            title:'Support vs Confidence'
-        };
-
-        Plotly.newPlot(gd, data, layout);
+        Plotly.newPlot('plot', data);
     }
 </script>
 {% endblock %}
