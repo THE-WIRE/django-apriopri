@@ -72,6 +72,7 @@
         console.log(x1, x2, x3);
 
         d = [x1, x2, x3];
+        var name = ["low", 'medium', "high"]
         var colors = new Array();
         colors.push('rgb(255, 0, 0)');
         colors.push('rgb(0, 255, 0)');
@@ -86,7 +87,7 @@
             lift = n.map(x => x.lift);
 
             text = n.map(x => {
-                return JSON.stringify(x.before) + '|' + JSON.stringify(x.after);
+                return JSON.stringify(x.before) + '→' + JSON.stringify(x.after);
             });
 
             trace = {
@@ -95,21 +96,37 @@
             z: lift,
             text: text,
             mode: 'markers',
+            name: name[i],
             marker: {
-                color: colors.pop(),
-                size: 12,
-                symbol: 'circle',
+                //color: colors.pop(),
+                size: 5,
+               symbol: 'circle',
                 line: {
-                color: 'rgb(204, 204, 204)',
-                width: 1},
-                opacity: 0.8},
+                //color: 'rgb(0, 204, 204)',
+                width: 0},
+                opacity: 0.9},
             type: 'scatter3d'
             };
 
             data.push(trace);
         });
+        var layout = {
+            x: {
+                //range: [ 0, 0.6 ],
+                //height: 100,
+                title: 'Support'
+            },
+            y: {
+            //     range: [0, 8]
+                   title: 'Confidence'
+            },
+            z: {
+                title: "lift"
+            },
+            title:'Support vs Confidence vs Lift'
+        };
 
-        Plotly.newPlot('plot', data);
+        Plotly.newPlot('plot', data, layout);
     }
 </script>
 {% endblock %}

@@ -1,0 +1,5 @@
+{"items": ["-100000.0"], "support": 0.20001921414160823, "ordered_statistics": [{"items_base": [], "items_add": ["-100000.0"], "confidence": 0.20001921414160823, "lift": 1.0}]}
+{"items": ["0.0"], "support": 0.979761104172671, "ordered_statistics": [{"items_base": [], "items_add": ["0.0"], "confidence": 0.979761104172671, "lift": 1.0}]}
+{"items": ["100000.0"], "support": 0.04595382201300157, "ordered_statistics": [{"items_base": [], "items_add": ["100000.0"], "confidence": 0.04595382201300157, "lift": 1.0}]}
+{"items": ["-100000.0", "0.0"], "support": 0.17978031831427932, "ordered_statistics": [{"items_base": ["-100000.0"], "items_add": ["0.0"], "confidence": 0.898815241754723, "lift": 0.91738204132292}, {"items_base": ["0.0"], "items_add": ["-100000.0"], "confidence": 0.18349403497303482, "lift": 0.91738204132292}]}
+{"items": ["0.0", "100000.0"], "support": 0.04595382201300157, "ordered_statistics": [{"items_base": ["0.0"], "items_add": ["100000.0"], "confidence": 0.0469030887399902, "lift": 1.0206569700931525}, {"items_base": ["100000.0"], "items_add": ["0.0"], "confidence": 1.0, "lift": 1.0206569700931525}]}
