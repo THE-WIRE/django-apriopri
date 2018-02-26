@@ -24,9 +24,9 @@ def upload_file(request):
         upload.datafile = request.FILES['datafile']
         if handle_uploaded_file(upload.datafile):
             upload.save()
-            return HttpResponseRedirect('/analysis/tests/')
+            return HttpResponseRedirect('/analysis/tests')
     else:
-        print("Form is not valid! : ", form.cleaned_data)
+        print("Form is not valid! : ", form)
 
     print('reached')
     context = {
