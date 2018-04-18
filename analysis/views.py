@@ -11,6 +11,9 @@ import json
 def index(request):
     return render(request,'analysis/index.html')
 
+def login(request):
+    return render(request,'analysis/login.html')
+
 def upload(request):
     return render(request,'analysis/upload.html', {'form': UploadForm})
 

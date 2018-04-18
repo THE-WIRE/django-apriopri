@@ -23,7 +23,8 @@ with open('/Users/suyog/test/data', 'r') as file:
                 i = 0
             elif(i == 't'):
                 i = 1
-            y.append(i)
+                y.append(i)
+
         data.append(y)
 
 

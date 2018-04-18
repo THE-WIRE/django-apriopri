@@ -10,6 +10,7 @@ app_name = 'analysis'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('login', views.login, name='login'),
     path('uploadfile', views.upload, name='uploadfile'),
     path('upload', views.upload_file, name='upload'),
     path('tests', views.list_tests, name='all_tests'),
@@ -19,4 +20,6 @@ urlpatterns = [
     path('<test_id>/plot', views.plot, name='plot'),
     path('<test_id>/plot2', views.plot2, name='plot2'),
     path('<test_id>/plot3', views.plot3, name='plot3')
+    
+
 ]

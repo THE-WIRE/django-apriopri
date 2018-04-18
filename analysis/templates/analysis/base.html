@@ -44,6 +44,20 @@
 				cursor: pointer;
 				text-align: center;
 			}
+
+			.main-menu {
+				float: right;
+				color: white;
+				margin: 10px;
+				padding: 1px;
+				background: inherit;
+				font-size: 16px;
+				font-weight: 500
+			}
+
+			.logout-link {
+				color: white;
+			}
 		</style>
 		<script type="text/javascript">
 			$(function() {
@@ -59,6 +73,12 @@
 			<div class="logo">
 				<i class="fa fa-tachometer"></i>
 				<span>Brand</span>
+			</div>
+			<div class="main-menu">
+				<a class="logout-link" href="{% url 'analysis:login' %}"><i class="fa fa-lock"></i>
+					<span>Logout</span>
+				</a>
+				
 			</div>
 			<a href="#" class="nav-trigger"><span></span></a>
 		</div>
